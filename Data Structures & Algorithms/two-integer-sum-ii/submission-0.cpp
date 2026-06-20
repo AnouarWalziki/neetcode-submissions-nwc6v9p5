@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        auto maxId = numbers.size() - 1;
+        int id1 = maxId / 2;
+        int id2 = id1 + 1;
+
+        while(true){
+            int sum = numbers[id1] + numbers[id2]; 
+            if(sum == target)
+                break;
+            
+            if(sum < target){
+                if(id2 == maxId)
+                    id1 += 1;
+                else
+                    id2 += 1;
+            } 
+            else {
+                if(id1 == 0)
+                    id2 -= 1;
+                else
+                    id1 -= 1;
+            }
+        }
+
+        return {(id1 + 1), (id2 + 1)};
+    }
+};
