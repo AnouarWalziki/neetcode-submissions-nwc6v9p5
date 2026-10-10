@@ -1,0 +1,68 @@
+struct TrieNode{
+    vector<TrieNode*> children;
+    bool word;
+    TrieNode() : children(26, nullptr), word(false){} 
+};
+
+class WordDictionary {
+public:
+    WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    void addWord(string word) {
+        TrieNode* current = root;
+        for(char c : word){
+            if(current->children[c - 'a'] == nullptr){
+                current->children[c - 'a'] = new TrieNode();
+            }
+            current = current->children[c - 'a'];
+        }
+        current->word = true;
+    }
+    
+    bool search(string word) {
+        return bfs(word, 0, root);
+    }
+
+private:
+    TrieNode* root;
+
+    bool bfs(string word, int j, TrieNode* current){
+        for(int i = j; i < word.size(); i++){
+            char c = word[i];
+            if(c == '.'){
+                for(TrieNode* child : current->children){
+                    if(child && bfs(word, i + 1, child)){
+                        return true;
+                    }
+                }
+                return false;
+            } else if(current->children[c - 'a'] == nullptr){
+                return false;
+            } else {
+                current = current->children[c - 'a'];
+            }
+        }
+        return current->word;  
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
